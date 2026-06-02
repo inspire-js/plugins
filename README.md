@@ -4,66 +4,32 @@ Official plugins for [Inspire.js](https://github.com/inspire-js/inspire.js), the
 
 Plugins are **autoloaded on demand**: each one declares a CSS selector, and it only loads if your deck contains a matching element. The package attaches itself to the core when imported and hooks into `Inspire`’s setup — you don’t call anything manually.
 
-## Install
-
-Inspire.js decks resolve dependencies with [nudeps](https://nudeps.dev) (naked dependencies, no build, no CDN):
-
-```sh
-npm install inspirejs.org @inspirejs/plugins
-npx nudeps install
-```
-
-`nudeps install` copies both packages into `client_modules/` and generates an import map, so the browser can resolve the bare specifiers below.
-
 ## Usage
 
-```html
-<script src="/importmap.js"></script>
-<script type="module">
-	import "inspirejs.org";        // the core engine (auto-initializes)
-	import "@inspirejs/plugins";   // autoloads any plugins your deck uses
-</script>
+Initialize plugins by importing the package after the core:
+
+```js
+import "inspirejs.org";        // the core engine (auto-initializes)
+import "@inspirejs/plugins";   // autoloads any plugins your deck uses
 ```
 
-After load, the package exposes:
+Most plugins can be auto-loaded by simply using them or adding an HTML attribute. See the table below for details.
+
+Additionally, after load, the package exposes:
 
 - `Inspire.plugins` — `{ registry, loaded, load, loadAll, register, TIMEOUT }`
 - `Inspire.loadPlugin(id)` — load a plugin on demand (loads once)
 
-```js
-await Inspire.loadPlugin("prism");
-// ...prism is now loaded
-```
+These should not be necessary in most cases, and are only meant as a low-level API for plugin authors and advanced use cases.
 
 ## Included plugins
 
-| Plugin | Loads when the deck has… |
-|---|---|
-| `timer` | `[data-duration]` |
-| `presenter` / `details-notes` | `details.notes` |
-| `lazy-load` | `[data-src]:not(.slide)` |
-| `slide-style` | `style[data-slide]` |
-| `overview` | always (use `.no-overview` to opt out) |
-| `iframe` | `.slide[data-src]`, `.iframe.slide`, `iframe[data-src]` |
-| `prism` | `[class*="lang-"]`, `[class*="language-"]` |
-| `media` | `[data-video]`, `.media-frame`, `.browser` |
-| `live-demo` | `.demo.slide` |
-| `resolution` | `[data-resolution]` |
-| `docs` | inline doc references (`code.property`, `[data-mdn]`, …) |
-| `mavo` | `[mv-app]` |
-| `visible-keys` | `[data-visible-keys]` |
-| `grid-layouts` | `[class*="heading-"]` |
-| `markdown` | `[data-markdown-elements]` |
-| `delayed-actions` | `inspire-action` |
-| `clone` | `[data-clone]` |
+See [`plugin-autoload.js`](./plugin-autoload.js) for the full list of plugins and their auto-load selectors.
 
-## Disabling plugins
+## Including and disabling plugins
 
 - Disable one: add class `no-<id>` to `<body>` (e.g. `no-overview`).
 - Disable all: add class `no-plugins` to `<body>`.
 - Skip a plugin’s CSS only: class `no-<id>-css` on any element.
 - Force-load a plugin even without a match: `data-load-plugins="<id> …"` on `<body>`.
 
-## License
-
-MIT © Lea Verou and contributors
