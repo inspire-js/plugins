@@ -1,4 +1,4 @@
-import { deduplicateId } from "../../src/util.js";
+import { deduplicateId } from "inspirejs.org/util";
 
 /*
 	TODO:

@@ -1,0 +1,31 @@
+{
+  "name": "@inspirejs/plugins",
+  "version": "1.0.0",
+  "description": "Official plugins for Inspire.js, the lean, hackable, extensible slide deck framework",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inspire-js/plugins.git"
+  },
+  "keywords": [
+    "slides",
+    "inspire.js",
+    "plugins"
+  ],
+  "author": "Lea Verou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inspire-js/plugins/issues"
+  },
+  "homepage": "https://inspirejs.org",
+  "peerDependencies": {
+    "inspirejs.org": "^3"
+  }
+}

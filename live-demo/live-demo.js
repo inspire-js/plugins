@@ -1,5 +1,5 @@
 import * as prismMeta from "../prism/meta.js";
-import { $, $$, create, Hooks, timeout as sleep } from "../../src/util.js";
+import { $, $$, create, Hooks, timeout as sleep } from "inspirejs.org/util";
 /*
 	Requirements:
 	- HTML, CSS, or both

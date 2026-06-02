@@ -1,5 +1,5 @@
 // Display certain keys pressed
-import Inspire from "../../inspire.mjs";
+import Inspire from "inspirejs.org";
 
 export const symbols = {
 	Tab: "⇥",

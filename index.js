@@ -1,18 +1,21 @@
+import Inspire from "inspirejs.org";
+import * as util from "inspirejs.org/util";
 import registry from "./plugin-autoload.js";
-import * as util from "./util.js"
 
-export {registry};
+export { registry };
 
 export let loaded = {};
 
 export const TIMEOUT = 4000;
 
+// Load a single plugin by id. Plugin files live next to this module,
+// so URLs resolve relative to it (no import map needed for the plugin's own files).
 export function load (id, def = {}) {
 	if (loaded[id]) {
 		return loaded[id];
 	}
 
-	let path = def.path || "../plugins";
+	let path = def.path || ".";
 	let pluginURL = new URL(`${path}/${id}/plugin.js`, import.meta.url);
 	let noCSS = document.querySelector(`.no-css-${id}, .no-${id}-css, .${id}-no-css`);
 
@@ -42,6 +45,7 @@ export function load (id, def = {}) {
 	return plugin;
 }
 
+// Load every registered plugin whose selector matches the current document.
 export function loadAll (plugins = registry) {
 	let ret = [];
 
@@ -64,6 +68,7 @@ export function loadAll (plugins = registry) {
 	return ret;
 }
 
+// Register additional plugins (id → selector or {test, path}) and load any that match.
 export function register (plugins) {
 	for (let id in plugins) {
 		registry[id] = plugins[id];
@@ -71,3 +76,27 @@ export function register (plugins) {
 
 	loadAll(plugins);
 }
+
+/**
+ * Bootstrap: attach this package to the core and hook into its setup.
+ * The core stays plugin-agnostic — it exposes a "setup" hook during setup()
+ * where extensions contribute promises (into Inspire.dependencies) that gate
+ * Inspire.ready. We register there to autoload matching plugins.
+ *
+ * Ordering: we statically import the core, so it (and its setup() call) evaluate
+ * before this code. setup() then suspends at `await this.loadImports()` before
+ * firing the "setup" hook, so this synchronous registration is always in
+ * place by the time the hook runs — as long as this package is in the deck's
+ * module graph (imported statically, not lazily after Inspire.ready).
+ */
+Inspire.plugins = { registry, loaded, TIMEOUT, load, loadAll, register };
+Inspire.loadPlugin = load;
+
+Inspire.hooks.add("setup", inspire => {
+	inspire.dependencies.push(...loadAll());
+});
+
+Inspire.ready.then(() => {
+	let ids = Object.keys(loaded);
+	console.info("Inspire.js plugins loaded:", ids.length ? ids.join(", ") : "none");
+});

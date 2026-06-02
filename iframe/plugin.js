@@ -1,5 +1,5 @@
-import Inspire from "../../inspire.mjs";
-import { $$, create } from "../../src/util.js";
+import Inspire from "inspirejs.org";
+import { $$, create } from "inspirejs.org/util";
 
 export const hasCSS = true;
 

@@ -1,6 +1,6 @@
 // Links to documentation
-import Inspire from "../../inspire.mjs";
-import create from "../../src/util/create.js";
+import Inspire from "inspirejs.org";
+import { create } from "inspirejs.org/util";
 
 export const hasCSS = true;
 
