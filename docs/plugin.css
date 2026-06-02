@@ -19,11 +19,11 @@ a[href^="https://developer.mozilla.org/en-US/docs/"]::before {
 }
 
 a[href^="https://www.w3.org/"]::before {
-	--image: url("w3.ico");
+	--image: url("icons/w3.ico");
 }
 
 a[href*="whatwg.org"]::before {
-	--image: url("whatwg.svg");
+	--image: url("icons/whatwg.svg");
 }
 
 .element {
