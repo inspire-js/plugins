@@ -1,5 +1,5 @@
 
-import * as util from "inspirejs.org/util";
+import * as util from "@inspirejs/core/util";
 
 export let PRISM_ROOT = util.getAttribute("data-prism-root");
 

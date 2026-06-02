@@ -1,4 +1,4 @@
-import { $$ } from "inspirejs.org/util";
+import { $$ } from "@inspirejs/core/util";
 
 export const hasCSS = false;
 
@@ -46,7 +46,7 @@ if (pluginNames.has("markdown-it-attrs")) {
 	}
 }
 
-const Inspire = (await import("inspirejs.org")).default;
+const Inspire = (await import("@inspirejs/core")).default;
 for (let e of elements) {
 	let changed = render(e);
 

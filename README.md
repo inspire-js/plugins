@@ -9,7 +9,7 @@ Plugins are **autoloaded on demand**: each one declares a CSS selector, and it o
 Initialize plugins by importing the package after the core:
 
 ```js
-import "inspirejs.org";        // the core engine (auto-initializes)
+import "@inspirejs/core";      // the core engine (auto-initializes)
 import "@inspirejs/plugins";   // autoloads any plugins your deck uses
 ```
 

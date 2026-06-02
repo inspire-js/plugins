@@ -1,5 +1,5 @@
-import Inspire from "inspirejs.org";
-import * as util from "inspirejs.org/util";
+import Inspire from "@inspirejs/core";
+import * as util from "@inspirejs/core/util";
 import registry from "./plugin-autoload.js";
 
 export { registry };

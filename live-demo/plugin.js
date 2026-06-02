@@ -1,6 +1,6 @@
-import Inspire from "inspirejs.org";
+import Inspire from "@inspirejs/core";
 import * as prism from "../prism/plugin.js";
-import { timeout, create, $, $$ } from "inspirejs.org/util";
+import { timeout, create, $, $$ } from "@inspirejs/core/util";
 import LiveDemo from "./live-demo.js";
 
 export const hasCSS = true;

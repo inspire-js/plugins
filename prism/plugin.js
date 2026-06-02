@@ -2,8 +2,8 @@
  * Autoload Prism and Prism plugins as needed
  */
 
-import Inspire from "inspirejs.org";
-import { $$, getAttribute, toArray, defer } from "inspirejs.org/util";
+import Inspire from "@inspirejs/core";
+import { $$, getAttribute, toArray, defer } from "@inspirejs/core/util";
 import * as meta from "./meta.js";
 
 let PRISM_ROOT = meta.PRISM_ROOT;

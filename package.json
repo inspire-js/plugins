@@ -26,6 +26,6 @@
   },
   "homepage": "https://inspirejs.org",
   "peerDependencies": {
-    "inspirejs.org": "^3"
+    "@inspirejs/core": "^3"
   }
 }

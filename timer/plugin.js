@@ -1,4 +1,4 @@
-import Inspire from "inspirejs.org";
+import Inspire from "@inspirejs/core";
 
 Inspire.hooks.add("init-start", me => {
 	// Create timer, if needed

@@ -5,7 +5,7 @@
 * <div class="annotation"> for annotations.
 * 		Annotation attributes: data-time="1000 to 2000", data-pause="3000"
  */
-import { create, $$ } from "inspirejs.org/util";
+import { create, $$ } from "@inspirejs/core/util";
 
 export const hasCSS = true;
 
