@@ -6,7 +6,7 @@ export const hasCSS = true;
 
 let processDocsLinks = (root = document) => {
 	for (let code of document.querySelectorAll(Inspire.plugins.registry.docs)) {
-		let text = code.dataset.mdn && !/\/$/.test(code.dataset.mdn)? "" : code.textContent;
+		let text = code.dataset.mdn && !/\/$/.test(code.dataset.mdn) ? "" : code.textContent;
 		let id = text;
 		let path;
 		let cs = getComputedStyle(code);
@@ -19,7 +19,7 @@ let processDocsLinks = (root = document) => {
 		}
 
 		if (type === "element") {
-			path = svg? "SVG/Element" : "HTML/Element";
+			path = svg ? "SVG/Element" : "HTML/Element";
 			code.textContent = "<" + text + ">";
 		}
 		else if (["function", "property", "css"].includes(type)) {
@@ -35,19 +35,22 @@ let processDocsLinks = (root = document) => {
 			}
 			else {
 				var category = code.dataset.category;
-				path = category? `API/${category}` : "HTML/Global_attributes";
+				path = category ? `API/${category}` : "HTML/Global_attributes";
 			}
 		}
 		else {
 			var mdn = code.closest("[data-mdn]");
-			path = mdn? mdn.dataset.mdn : "";
+			path = mdn ? mdn.dataset.mdn : "";
 		}
 
 		if (type === "function") {
 			code.textContent += "()";
 		}
 
-		create.around(code, `<a class="docs-link" href="https://developer.mozilla.org/en-US/docs/Web/${path}/${id}" target="_blank"></a>`);
+		create.around(
+			code,
+			`<a class="docs-link" href="https://developer.mozilla.org/en-US/docs/Web/${path}/${id}" target="_blank"></a>`,
+		);
 	}
 };
 

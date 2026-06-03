@@ -37,10 +37,10 @@ for (let target of document.querySelectorAll("[data-clone]")) {
 	}
 }
 
-function querySelectorRelative(selector, element) {
+function querySelectorRelative (selector, element) {
 	let parent = element;
 
-	while (parent = parent.parentNode) {
+	while ((parent = parent.parentNode)) {
 		let found = parent.querySelector(selector);
 
 		if (found) {

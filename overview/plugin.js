@@ -9,7 +9,7 @@ let exitOverview = () => {
 let enteredSelector;
 
 Inspire.hooks.add({
-	"keyup": function(env) {
+	keyup: function (env) {
 		// Ctrl+H / Shift + H : Show section overview
 		// Ctrl + Shift + H: Show overview of all slides
 		// Alt can also be used instead of Ctrl
@@ -27,8 +27,11 @@ Inspire.hooks.add({
 			exitOverview();
 		}
 		else if (env.letter === "H" && (evt.ctrlKey || evt.altKey)) {
-			let defaultSelector = enteredSelector || (headersOnly? "header, :target" : "");
-			let selector = prompt("Which slides to include? Enter a CSS selector, or leave empty to show all slides.", defaultSelector);
+			let defaultSelector = enteredSelector || (headersOnly ? "header, :target" : "");
+			let selector = prompt(
+				"Which slides to include? Enter a CSS selector, or leave empty to show all slides.",
+				defaultSelector,
+			);
 
 			document.querySelector("style#inspire-overview-filter")?.remove();
 
@@ -41,19 +44,22 @@ Inspire.hooks.add({
 				document.head.append(style);
 			}
 
-			document.body.addEventListener("click", evt => {
-				// Go to slide
-				var slide = evt.target.closest(".slide");
+			document.body.addEventListener(
+				"click",
+				evt => {
+					// Go to slide
+					var slide = evt.target.closest(".slide");
 
-				if (slide) {
-					Inspire.goto(slide.id);
-				}
+					if (slide) {
+						Inspire.goto(slide.id);
+					}
 
-				exitOverview();
-			}, {once: true});
+					exitOverview();
+				},
+				{ once: true },
+			);
 
 			document.body.classList.add("show-thumbnails", "show-all");
 		}
-	}
+	},
 });
-

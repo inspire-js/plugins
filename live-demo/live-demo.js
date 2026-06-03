@@ -14,7 +14,7 @@ const PAUSE_THRESHOLD = 3000;
 
 const replayerOptions = {
 	delay: 140,
-	pauses: action => action.delay < PAUSE_THRESHOLD? "delay" : "pause",
+	pauses: action => (action.delay < PAUSE_THRESHOLD ? "delay" : "pause"),
 	// pauses: "pause",
 };
 
@@ -30,13 +30,22 @@ if (!Prism.plugins.NormalizeWhitespace) {
 }
 
 export default class LiveDemo {
-	constructor(container, o = {}) {
+	constructor (container, o = {}) {
 		this.container = container;
-		this.isolated = "isolated" in o? o.isolated : this.container.classList.contains("isolated");
-		this.minimal = "minimal" in o? o.minimal : this.container.classList.contains("minimal");
-		this.updateReload = "updateReload" in o? o.updateReload : this.container.classList.contains("update-reload");
-		this.noBase = "base" in o? o.base === false : this.container.classList.contains("no-base");
-		this.baseCSS = "baseCSS" in o? o.baseCSS === false : this.container.classList.contains("no-base-css")? "" : LiveDemo.baseCSS;
+		this.isolated =
+			"isolated" in o ? o.isolated : this.container.classList.contains("isolated");
+		this.minimal = "minimal" in o ? o.minimal : this.container.classList.contains("minimal");
+		this.updateReload =
+			"updateReload" in o
+				? o.updateReload
+				: this.container.classList.contains("update-reload");
+		this.noBase = "base" in o ? o.base === false : this.container.classList.contains("no-base");
+		this.baseCSS =
+			"baseCSS" in o
+				? o.baseCSS === false
+				: this.container.classList.contains("no-base-css")
+					? ""
+					: LiveDemo.baseCSS;
 
 		this.container.classList.add("live-demo");
 
@@ -96,10 +105,19 @@ export default class LiveDemo {
 		}
 
 		if (!this.isolated) {
-			this.element = $(".demo-target", this.container) || create.in(this.container, `<div class="demo-target"></div>`);
+			this.element =
+				$(".demo-target", this.container) ||
+				create.in(this.container, `<div class="demo-target"></div>`);
 
 			if (!this.editors.markup) {
-				let exclude = [".editor-container", "style", ".demo-controls", ".demo-target", ".demo-exclude", ".notes"].map(s => `:not(${s})`)
+				let exclude = [
+					".editor-container",
+					"style",
+					".demo-controls",
+					".demo-target",
+					".demo-exclude",
+					".notes",
+				].map(s => `:not(${s})`);
 				this.element.append(...$$(`:scope > ${exclude.join("")}`, this.container));
 			}
 		}
@@ -111,14 +129,18 @@ export default class LiveDemo {
 		}
 
 		if (this.isolated) {
-			this.iframe = $("iframe.demo-target", this.container) || create.in(this.container, `<iframe class="demo-target"></iframe>`);
+			this.iframe =
+				$("iframe.demo-target", this.container) ||
+				create.in(this.container, `<iframe class="demo-target"></iframe>`);
 
 			this.iframe.name = this.iframe.name || "iframe-" + this.container.id;
 
-			this.extraCSS = $$("style.demo", this.container).map(s => {
-				s.remove();
-				return s.textContent;
-			}).join("\n");
+			this.extraCSS = $$("style.demo", this.container)
+				.map(s => {
+					s.remove();
+					return s.textContent;
+				})
+				.join("\n");
 			this.extraCSS = Prism.plugins.NormalizeWhitespace.normalize(this.extraCSS);
 
 			this.ready = this.updateIframe();
@@ -131,9 +153,12 @@ export default class LiveDemo {
 				html: `<a class="button new-tab" target="_blank" href="">↗️ New Tab</a>`,
 				events: {
 					"click mouseenter": evt => {
-						a.href = LiveDemo.createURL(this.getHTMLPage({inline: false, noBase: this.noBase}), self.safari);
-					}
-				}
+						a.href = LiveDemo.createURL(
+							this.getHTMLPage({ inline: false, noBase: this.noBase }),
+							self.safari,
+						);
+					},
+				},
 			});
 
 			// Open in codepen button
@@ -181,7 +206,7 @@ export default class LiveDemo {
 									let css = await response.text();
 
 									return css;
-								})
+								}),
 							);
 
 							importedCSS = importedCSS.join("\n");
@@ -196,11 +221,11 @@ export default class LiveDemo {
 						css,
 						js,
 						editors: `${+!!this.html}${+!!css}${+!!js}0`,
-						head: this.noBase? "" : `<base href="${location.href}" />`
+						head: this.noBase ? "" : `<base href="${location.href}" />`,
 					});
 
 					evt.target.submit();
-				}
+				},
 			});
 
 			if (!this.minimal) {
@@ -209,7 +234,6 @@ export default class LiveDemo {
 					this.controls.prepend(h1);
 				}
 			}
-
 		}
 		else {
 			this.ready = Promise.resolve();
@@ -232,7 +256,7 @@ export default class LiveDemo {
 				in: this.controls,
 				onclick: async evt => {
 					let isPlay = playButton.textContent === PLAY_LABEL;
-					playButton.textContent = isPlay? PAUSE_LABEL : PLAY_LABEL;
+					playButton.textContent = isPlay ? PAUSE_LABEL : PLAY_LABEL;
 
 					if (this.replayer) {
 						// Restore delay (that skip may have messed with)
@@ -275,7 +299,7 @@ export default class LiveDemo {
 					catch (e) {
 						console.error("Cannot play live demo script due to JSON parse error:", e);
 					}
-				}
+				},
 			});
 
 			this.editorContainer.addEventListener("keydown", evt => {
@@ -283,7 +307,7 @@ export default class LiveDemo {
 					document.activeElement.blur(); // blur editor
 					this.replayer.pause();
 				}
-			})
+			});
 
 			let skipButton = create({
 				html: `<button class="skip">⏭️</button>`,
@@ -295,9 +319,12 @@ export default class LiveDemo {
 						}
 
 						this.replayer.options.delay = 0;
-						this.replayer.options.pauses = action => action.delay < PAUSE_THRESHOLD || evt.metaKey || evt.ctrlKey? "ignore" : "pause";
+						this.replayer.options.pauses = action =>
+							action.delay < PAUSE_THRESHOLD || evt.metaKey || evt.ctrlKey
+								? "ignore"
+								: "pause";
 					}
-				}
+				},
 			});
 		}
 
@@ -325,7 +352,7 @@ export default class LiveDemo {
 		LiveDemo.hooks.run("after-init", this);
 	}
 
-	fixCode(id, code) {
+	fixCode (id, code) {
 		if (LiveDemo.fixers[id] && LiveDemo.fixers[id].length) {
 			for (let fixer of LiveDemo.fixers[id]) {
 				var newCode = fixer(code);
@@ -339,14 +366,14 @@ export default class LiveDemo {
 		return code;
 	}
 
-	output(id) {
+	output (id) {
 		let editor = this.editors[id];
 		let code;
 
 		if (id in this) {
 			code = this[id];
 		}
-		else if (id === "markup"){
+		else if (id === "markup") {
 			code = this.html;
 		}
 		else if (id === "javascript") {
@@ -397,20 +424,27 @@ export default class LiveDemo {
 				}
 
 				if (this.style.sheet) {
-					let scope = this.editors.css.textarea.getAttribute("data-scope") || `#${this.container.id} .demo-target `;
+					let scope =
+						this.editors.css.textarea.getAttribute("data-scope") ||
+						`#${this.container.id} .demo-target `;
 
 					for (let rule of this.style.sheet.cssRules) {
 						LiveDemo.scopeRule(rule, this.container, scope);
 					}
 				}
 				else {
-					console.log("FAIL on", this.container.id, this.style.outerHTML, this.style.media);
+					console.log(
+						"FAIL on",
+						this.container.id,
+						this.style.outerHTML,
+						this.style.media,
+					);
 				}
 			}
 		}
 	}
 
-	updateIframe() {
+	updateIframe () {
 		this.iframe.srcdoc = this.getHTMLPage();
 
 		return new Promise(resolve => {
@@ -421,7 +455,7 @@ export default class LiveDemo {
 		});
 	}
 
-	get html() {
+	get html () {
 		if (!this.editors.markup) {
 			// No HTML editor
 			return "";
@@ -430,8 +464,8 @@ export default class LiveDemo {
 		var editor = this.editors.markup.source;
 
 		if (editor) {
-			let prepend = editor.dataset.prepend? editor.dataset.prepend + "\n" : "";
-			let append = editor.dataset.append? "\n" + editor.dataset.append : "";
+			let prepend = editor.dataset.prepend ? editor.dataset.prepend + "\n" : "";
+			let append = editor.dataset.append ? "\n" + editor.dataset.append : "";
 			return `${prepend}${editor.value}${append}`;
 		}
 		else {
@@ -439,19 +473,19 @@ export default class LiveDemo {
 		}
 	}
 
-	get css() {
+	get css () {
 		return this.editors.css?.value;
 	}
 
-	get js() {
+	get js () {
 		return (this.editors.js || this.editors.javascript)?.value;
 	}
 
-	get title() {
+	get title () {
 		return (this.container.title || this.container.dataset.title || "") + " Demo";
 	}
 
-	getHTMLPage({title, inline} = {}) {
+	getHTMLPage ({ title, inline } = {}) {
 		return LiveDemo.getHTMLPage({
 			html: this.html,
 			css: this.css,
@@ -465,7 +499,7 @@ export default class LiveDemo {
 		});
 	}
 
-	openEditor(id) {
+	openEditor (id) {
 		for (let i in this.editors) {
 			this.editors[i].wrapper.classList.toggle("collapsed", i !== id);
 		}
@@ -473,7 +507,9 @@ export default class LiveDemo {
 
 	async play (script) {
 		if (!this.replayer) {
-			let Replayer = await import("https://rety.verou.me/src/replayer.js").then(m => m.default);
+			let Replayer = await import("https://rety.verou.me/src/replayer.js").then(
+				m => m.default,
+			);
 			// let editors = Object.fromEntries(Object.entries(this.editors).map(([id, editor]) => [id, editor.textarea]));
 			let editors = Object.values(this.editors).map(editor => editor.textarea);
 
@@ -483,32 +519,32 @@ export default class LiveDemo {
 		return this.replayer.runAll(script);
 	}
 
-	static createEditor(container, label, o = {}) {
+	static createEditor (container, label, o = {}) {
 		var lang = o.lang || label;
 		let textarea = create({
 			html: `<textarea id="${container.id}-${label}-editor" class="language-${lang} editor" data-lang="${lang}">${o.fromSource()}</textarea>`,
 			in: o.container || container,
 			value: o.fromSource(),
 			events: {
-				input: o.toSource
-			}
+				input: o.toSource,
+			},
 		});
 
 		return new Prism.Live(textarea);
 	}
 
-	static createURL(html, useDataURI, type = "text/html") {
+	static createURL (html, useDataURI, type = "text/html") {
 		html = html.replace(/&#x200b;/g, "");
 
 		if (useDataURI) {
 			return `data:${type},${encodeURIComponent(html)}`;
 		}
 		else {
-			return URL.createObjectURL(new Blob([html], {type}));
+			return URL.createObjectURL(new Blob([html], { type }));
 		}
 	}
 
-	static scopeRule(rule, container, scope) {
+	static scopeRule (rule, container, scope) {
 		let selector = rule.selectorText;
 
 		if (rule.cssRules) {
@@ -521,11 +557,11 @@ export default class LiveDemo {
 
 		if (selector && rule instanceof CSSStyleRule) {
 			let shouldScope = !(
-				selector.includes("#")  // don't do anything if the selector already contains an id
-				|| [":root", "body"].includes(selector) // don't scope these
+				selector.includes("#") || // don't do anything if the selector already contains an id
+				[":root", "body"].includes(selector) // don't scope these
 			);
 
-			let env = {context: this, rule, container, scope, shouldScope};
+			let env = { context: this, rule, container, scope, shouldScope };
 			LiveDemo.hooks.run("scoperule", env);
 
 			if ("returnValue" in env) {
@@ -533,14 +569,26 @@ export default class LiveDemo {
 			}
 
 			if (env.shouldScope && selector.indexOf(scope) !== 0) {
-				rule.selectorText = selector.split(",").map(s => `${scope} ${s}`).join(", ");
+				rule.selectorText = selector
+					.split(",")
+					.map(s => `${scope} ${s}`)
+					.join(", ");
 			}
 		}
 	}
 
-	static getHTMLPage ({html="", css="", baseCSS = LiveDemo.baseCSS, extraCSS="", js="", title="Demo", inline = true, noBase = false, module = false} = {}) {
-
-		baseCSS = baseCSS + (baseCSS && extraCSS? "\n" : "") + extraCSS;
+	static getHTMLPage ({
+		html = "",
+		css = "",
+		baseCSS = LiveDemo.baseCSS,
+		extraCSS = "",
+		js = "",
+		title = "Demo",
+		inline = true,
+		noBase = false,
+		module = false,
+	} = {}) {
+		baseCSS = baseCSS + (baseCSS && extraCSS ? "\n" : "") + extraCSS;
 
 		// Hoist imports to top
 		let imports = [];
@@ -562,7 +610,7 @@ ${css}
 		return `<!DOCTYPE html>
 <html lang="en">
 <head>
-${noBase? "" : `<base href="${location.href}" />`}
+${noBase ? "" : `<base href="${location.href}" />`}
 <meta charset="UTF-8">
 <title>${title}</title>
 <style>
@@ -570,7 +618,9 @@ ${noBase? "" : `<base href="${location.href}" />`}
 ${baseCSS}
 </style>
 ${css}
-${inline? `<script>
+${
+	inline
+		? `<script>
 document.addEventListener("click", evt => {
 	if (evt.target.matches('a[href^="#"]:not([target])')) {
 		let prevented = evt.defaultPrevented;
@@ -584,15 +634,21 @@ document.addEventListener("click", evt => {
 		}
 	}
 })
-</script>` : ""}
+</script>`
+		: ""
+}
 
 </head>
 <body>
 ${html}
-${js? `
-<script${module? ' type="module"' : ""}>
+${
+	js
+		? `
+<script${module ? ' type="module"' : ""}>
 ${js}
-</script>` : ""}
+</script>`
+		: ""
+}
 
 </body>
 </html>`;
@@ -605,21 +661,20 @@ ${js}
 
 		return container.demo;
 	}
-};
+}
 
 Object.assign(LiveDemo, {
 	hooks: new Hooks(),
 
 	fixers: {
 		html: [],
-		css: []
+		css: [],
 	},
 
 	baseCSS: `body {
 	font: 100%/1.5 system-ui, Helvetica Neue, Segoe UI, sans-serif;
-}`
+}`,
 });
-
 
 var baseCSSTemplate = $(".live-demo-base-css");
 if (baseCSSTemplate) {
@@ -627,4 +682,7 @@ if (baseCSSTemplate) {
 	LiveDemo.baseCSS = baseCSSTemplate.textContent || baseCSSTemplate.innerHTML;
 }
 
-create.in(document.head, `<link rel="stylesheet" href="${new URL("./live-demo.css", import.meta.url)}">`);
+create.in(
+	document.head,
+	`<link rel="stylesheet" href="${new URL("./live-demo.css", import.meta.url)}">`,
+);

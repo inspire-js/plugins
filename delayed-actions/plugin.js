@@ -5,34 +5,34 @@
 export default class InspireAction extends HTMLElement {
 	#triggered = 0;
 
-	constructor() {
+	constructor () {
 		super();
 
 		// this.attachShadow({mode: "open"});
 		// this.shadowRoot.innerHTML = `:host { display: none }`;
 	}
 
-	static get observedAttributes() {
+	static get observedAttributes () {
 		return ["type", "target", "class"];
 	}
 
-	get type() {
+	get type () {
 		return this.getAttribute("type");
 	}
 
-	set type(type) {
+	set type (type) {
 		this.setAttribute("type", type);
 	}
 
-	get target() {
+	get target () {
 		return this.getAttribute("target");
 	}
 
-	set target(target) {
+	set target (target) {
 		this.setAttribute("target", target);
 	}
 
-	trigger() {
+	trigger () {
 		if (this.#triggered > 0 && this.hasAttribute("once")) {
 			return;
 		}
@@ -55,12 +55,12 @@ export default class InspireAction extends HTMLElement {
 		}
 	}
 
-	connectedCallback() {
+	connectedCallback () {
 		this.classList.add("delayed");
 		this.innerHTML = `<slot></slot>`;
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
+	attributeChangedCallback (name, oldValue, newValue) {
 		if (name === "class") {
 			if (this.classList.contains("current")) {
 				this.trigger();

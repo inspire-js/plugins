@@ -1,9 +1,9 @@
 /**
-* Video slides, declared with data-video
-* [data-times="N"] to play video N times and then pause
-* .looping for looping
-* <div class="annotation"> for annotations.
-* 		Annotation attributes: data-time="1000 to 2000", data-pause="3000"
+ * Video slides, declared with data-video
+ * [data-times="N"] to play video N times and then pause
+ * .looping for looping
+ * <div class="annotation"> for annotations.
+ * 		Annotation attributes: data-time="1000 to 2000", data-pause="3000"
  */
 import { create, $$ } from "@inspirejs/core/util";
 
@@ -18,17 +18,22 @@ document.addEventListener("slidechange", evt => {
 	if (slide.matches(".slide[data-video]")) {
 		if (!slide.matches(".initialized")) {
 			// Initialization code
-			let container = slide.classList.contains("cover")? slide : create.in(slide, `<div class="video-container ${ slide.getAttribute("data-frame-class") ?? "media-frame" }"></div>`);
+			let container = slide.classList.contains("cover")
+				? slide
+				: create.in(
+						slide,
+						`<div class="video-container ${slide.getAttribute("data-frame-class") ?? "media-frame"}"></div>`,
+					);
 
 			let timedAnnotations = new Map();
 
 			let video = create({
 				in: container,
-				html: `<video src="${ slide.getAttribute("data-video") }"></video>`,
+				html: `<video src="${slide.getAttribute("data-video")}"></video>`,
 				loop: slide.classList.contains("looping"),
 				events: {
-					"click": evt => video[video.paused? "play" : "pause"](),
-					"timeupdate": evt => {
+					click: evt => video[video.paused ? "play" : "pause"](),
+					timeupdate: evt => {
 						var currentMs = video.currentTime * 1000;
 
 						for (let [annotation, times] of timedAnnotations.entries()) {
@@ -36,7 +41,11 @@ document.addEventListener("slidechange", evt => {
 								times.end = video.duration * 1000 + 1000; // ensure if never ends
 							}
 
-							if (currentMs >= times.start && currentMs < times.end && annotation.classList.contains("hidden")) {
+							if (
+								currentMs >= times.start &&
+								currentMs < times.end &&
+								annotation.classList.contains("hidden")
+							) {
 								// Show annotation
 								annotation.classList.remove("hidden");
 
@@ -46,12 +55,18 @@ document.addEventListener("slidechange", evt => {
 										video.pause();
 
 										if (annotation.dataset.pause) {
-											setTimeout(() => video.play(), annotation.dataset.pause);
+											setTimeout(
+												() => video.play(),
+												annotation.dataset.pause,
+											);
 										}
 									}
 								}
 							}
-							else if (currentMs >= times.end && !annotation.classList.contains("hidden")) {
+							else if (
+								currentMs >= times.end &&
+								!annotation.classList.contains("hidden")
+							) {
 								// Hide annotation
 								annotation.classList.add("hidden");
 							}
@@ -60,15 +75,15 @@ document.addEventListener("slidechange", evt => {
 					"play pause": evt => {
 						evt.target.classList.toggle("paused", evt.type === "pause");
 					},
-					"ended": evt => {
+					ended: evt => {
 						video.iterations++;
 
 						if (slide.dataset.times > 0 && video.iterations < slide.dataset.times) {
 							video.currentTime = 0;
 							video.play();
 						}
-					}
-				}
+					},
+				},
 			});
 
 			for (let annotation of $$(".annotation", slide)) {
@@ -78,9 +93,9 @@ document.addEventListener("slidechange", evt => {
 					annotation.classList.add("hidden");
 					let times = annotation.dataset.time.split(/\s*to\s*/);
 					let start = +times[0];
-					let end = annotation.dataset.pause !== undefined? start + 300 : +times[1];
+					let end = annotation.dataset.pause !== undefined ? start + 300 : +times[1];
 
-					timedAnnotations.set(annotation, {start, end});
+					timedAnnotations.set(annotation, { start, end });
 				}
 			}
 

@@ -8,7 +8,9 @@ let elements = $$(selectors.join(", "));
 
 if (elements.length === 0) {
 	// Basically return;
-	await new Promise((res, rej) => {rej("No markdown elements")});
+	await new Promise((res, rej) => {
+		rej("No markdown elements");
+	});
 }
 
 let { default: markdownit } = await import("https://esm.sh/markdown-it@14");
@@ -18,16 +20,20 @@ let md = new markdownit("commonmark", {
 	typographer: true,
 	linkify: true,
 	// breaks: true
-}).enable([ "table" ]).disable("code");
+})
+	.enable(["table"])
+	.disable("code");
 
 // Load and apply plugins specified via data-markdown-plugins (comma-separated npm package names or URLs)
-let pluginNames = new Set(configElements.flatMap(e => {
-	let attr = e.getAttribute("data-markdown-plugins");
-	return attr ? attr.split(/\s*,\s*/).filter(Boolean) : [];
-}));
+let pluginNames = new Set(
+	configElements.flatMap(e => {
+		let attr = e.getAttribute("data-markdown-plugins");
+		return attr ? attr.split(/\s*,\s*/).filter(Boolean) : [];
+	}),
+);
 
 for (let name of pluginNames) {
-	let url = name.includes("/") ? name : `https://esm.sh/${ name }`;
+	let url = name.includes("/") ? name : `https://esm.sh/${name}`;
 	let module = await import(url);
 	md.use(module.default || module);
 }
@@ -43,7 +49,7 @@ if (pluginNames.has("markdown-it-attrs")) {
 		const codeClass = langName ? ` class="${options.langPrefix + langName}"` : "";
 
 		return `<pre${slf.renderAttrs(token)}>\n<code${codeClass}>${content}</code>\n</pre>\n`;
-	}
+	};
 }
 
 const Inspire = (await import("@inspirejs/core")).default;
@@ -55,20 +61,20 @@ for (let e of elements) {
 	}
 }
 
-function getCommonPrefix(strings) {
+function getCommonPrefix (strings) {
 	return strings.reduce((prefix, str) => {
 		let i = [...str].findIndex((c, i) => c !== prefix[i]);
 		return i > -1 ? prefix.slice(0, i) : prefix;
 	});
 }
 
-function getIndent(code) {
+function getIndent (code) {
 	// Grab indent used on any non-empty line
 	let indents = code.match(/^[\t ]*(?=\S)/gm);
-	return indents? getCommonPrefix(indents) : "";
+	return indents ? getCommonPrefix(indents) : "";
 }
 
-function renderCode(code) {
+function renderCode (code) {
 	// Remove overall indentation
 	let indent = getIndent(code);
 	if (indent) {
@@ -76,10 +82,10 @@ function renderCode(code) {
 	}
 
 	// Text chunks with headings should be rendered as block markdown regardless
-	return /\r?\n|^\#/.test(code.trim())? md.render(code) : md.renderInline(code);
+	return /\r?\n|^\#/.test(code.trim()) ? md.render(code) : md.renderInline(code);
 }
 
-function render(e) {
+function render (e) {
 	// Skip elements whose content should not be markdown-processed
 	if (e?.classList.contains("no-md") || /^(PRE|CODE|SCRIPT|STYLE|SVG)$/.test(e?.tagName)) {
 		return;
@@ -100,7 +106,7 @@ function render(e) {
 		for (let child of [...e.childNodes]) {
 			if (child.nodeType === Node.TEXT_NODE) {
 				let code = child.textContent;
-				let html = renderCode(code)
+				let html = renderCode(code);
 
 				if (child.nextSibling) {
 					child.nextSibling.insertAdjacentHTML("beforebegin", html);
@@ -114,7 +120,7 @@ function render(e) {
 
 				child.remove();
 			}
-			else if(child.nodeType === Node.ELEMENT_NODE) {
+			else if (child.nodeType === Node.ELEMENT_NODE) {
 				render(child);
 			}
 		}

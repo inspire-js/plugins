@@ -1,6 +1,6 @@
 export const hasCSS = true;
 
-for (let el of document.querySelectorAll(('[class*="heading-"]'))) {
+for (let el of document.querySelectorAll('[class*="heading-"]')) {
 	let [, m, n] = el.className.match(/\bheading-(\d)x(\d)/) || [];
 
 	if (m && n) {

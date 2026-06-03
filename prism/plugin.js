@@ -18,7 +18,7 @@ ids = new Set(ids);
 
 // Which plugins to load?
 let plugins = getAttribute("data-prism-plugins");
-plugins = plugins? plugins.split(/\s*,\s*/) : [];
+plugins = plugins ? plugins.split(/\s*,\s*/) : [];
 
 if (ids.size) {
 	// Prism is used in the current slide deck!
@@ -39,7 +39,7 @@ if (ids.size) {
 export const Prism = globalThis.Prism;
 
 // Support prism-ignore to opt out of highlighting
-Prism.hooks.add("before-all-elements-highlight", function(env) {
+Prism.hooks.add("before-all-elements-highlight", function (env) {
 	env.elements = env.elements.filter(e => !e.matches(".prism-ignore, .prism-ignore *"));
 });
 
@@ -58,7 +58,7 @@ for (let [id, lang] of Object.entries(languages)) {
 }
 
 // Load languages recursively, respecting dependencies
-var ok = {none: Promise.resolve()};
+var ok = { none: Promise.resolve() };
 var loadLanguage = async id => {
 	if (ok[id]) {
 		// Language already loading
@@ -93,7 +93,7 @@ if (plugins.length) {
 	await Promise.all(plugins.map(id => meta.loadPlugin(id)));
 }
 
-var message = !prismAlreadyLoaded? ["Prism Core"] : [];
+var message = !prismAlreadyLoaded ? ["Prism Core"] : [];
 ids.length && message.push(`Prism languages: ${ids.join(", ")}`);
 plugins.length && message.push(`Prism plugins: ${plugins.join(", ")}`);
 
@@ -110,7 +110,6 @@ Inspire.hooks.add("slidechange", env => {
 	if (env.firstTime) {
 		Prism.highlightAllUnder(env.slide);
 	}
-
 });
 
 export { meta, ids as languages, plugins };

@@ -1,4 +1,3 @@
-
 import * as util from "@inspirejs/core/util";
 
 export let PRISM_ROOT = util.getAttribute("data-prism-root");
@@ -6,7 +5,7 @@ export let PRISM_ROOT = util.getAttribute("data-prism-root");
 if (!PRISM_ROOT) {
 	// Find a good default
 	try {
-		await fetch("https://prismjs.com", { method: 'HEAD' });
+		await fetch("https://prismjs.com", { method: "HEAD" });
 		PRISM_ROOT = "https://prismjs.com";
 	}
 	catch (e) {
@@ -26,11 +25,11 @@ for (let [id, lang] of Object.entries(components.languages)) {
 	if (lang.alias) {
 		lang.alias = util.toArray(lang.alias);
 
-		lang.alias.forEach(a => languages[a] = lang);
+		lang.alias.forEach(a => (languages[a] = lang));
 	}
 }
 
-export async function loadPlugin(id) {
+export async function loadPlugin (id) {
 	let CamelCase = id.replace(/(?:^|\-)(\w)/g, ($0, $1) => $1.toUpperCase());
 
 	if (!Prism.plugins[CamelCase]) {
@@ -41,13 +40,16 @@ export async function loadPlugin(id) {
 		}
 
 		if (!plugins[id].noCSS) {
-			document.head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="${PRISM_ROOT}/plugins/${id}/prism-${id}.css" />`);
+			document.head.insertAdjacentHTML(
+				"beforeend",
+				`<link rel="stylesheet" href="${PRISM_ROOT}/plugins/${id}/prism-${id}.css" />`,
+			);
 		}
 
-		await import(`${PRISM_ROOT}/plugins/${id}/prism-${id}.js`)
+		await import(`${PRISM_ROOT}/plugins/${id}/prism-${id}.js`);
 	}
 
 	return Prism.plugins[CamelCase];
 }
 
-export {languages, plugins};
+export { languages, plugins };

@@ -12,7 +12,7 @@ $$(".demo.slide").forEach(slide => {
 	slide.classList.add("dont-resize", "no-slide-number");
 });
 
-$$("style.demo").forEach(style => style.dataset.slide = "");
+$$("style.demo").forEach(style => (style.dataset.slide = ""));
 
 LiveDemo.fixers.css.push(code => {
 	if (!/\{[\S\s]+\}/.test(code.replace(/'[\S\s]+'/g, ""))) {
@@ -35,32 +35,37 @@ input[type="number"] {
 }
 `;
 
-LiveDemo.hooks.add("after-init", function() {
+LiveDemo.hooks.add("after-init", function () {
 	if (this.isolated) {
 		// Next & previous slide buttons
 		create({
 			html: `<button class="prev" title="Previous slide">◂</button>`,
 			start: this.controls,
 			events: {
-				click: Inspire.previous
-			}
+				click: Inspire.previous,
+			},
 		});
 
 		create({
 			html: `<button class="next" title="Next slide">Next ▸</button>`,
 			in: this.controls,
 			events: {
-				click: Inspire.next
-			}
+				click: Inspire.next,
+			},
 		});
 	}
 
 	if (this.script && this.minimal) {
-		let pauses = JSON.parse(this.script.textContent).filter(step => step.type === "pause").length;
+		let pauses = JSON.parse(this.script.textContent).filter(
+			step => step.type === "pause",
+		).length;
 
 		// Trigger play automatically when you hit next
 		for (let i = 0; i < pauses + 1; i++) {
-			this.controls.insertAdjacentHTML("beforeend", `<inspire-action target="button.replay" once>▸</inspire-action>`);
+			this.controls.insertAdjacentHTML(
+				"beforeend",
+				`<inspire-action target="button.replay" once>▸</inspire-action>`,
+			);
 		}
 
 		if (this.container === Inspire.currentSlide) {
@@ -69,28 +74,38 @@ LiveDemo.hooks.add("after-init", function() {
 	}
 });
 
-LiveDemo.hooks.add("scoperule", function(env) {
+LiveDemo.hooks.add("scoperule", function (env) {
 	let selector = env.rule.selectorText;
 
 	if (selector == "article" || selector == ".slide") {
 		env.rule.selectorText = `#${env.container.id}`;
 		env.returnValue = undefined;
 	}
-})
+});
 
 if (!Prism.Live) {
 	// Filter loaded languages to only languages used in demos
 	var languages = [];
 
 	for (let [id, lang] of Object.entries(prism.meta.languages)) {
-		if (id === lang.id && $(`.demo.slide .language-${id}, .language-${id} .demo.slide, .demo.slide.language-${id}`)) {
+		if (
+			id === lang.id &&
+			$(
+				`.demo.slide .language-${id}, .language-${id} .demo.slide, .demo.slide.language-${id}`,
+			)
+		) {
 			languages.push(id);
 		}
 	}
 
-	console.info("Prism Live not loaded. Loading from live.prismjs.com, with language(s) " + languages.join(", "));
-	let loaded = await import(`https://live.prismjs.com/src/prism-live.js?load=${languages.join(",")}`);
-	for (let delay=100; delay < 1000; delay += 100) {
+	console.info(
+		"Prism Live not loaded. Loading from live.prismjs.com, with language(s) " +
+			languages.join(", "),
+	);
+	let loaded = await import(
+		`https://live.prismjs.com/src/prism-live.js?load=${languages.join(",")}`
+	);
+	for (let delay = 100; delay < 1000; delay += 100) {
 		if (Prism.Live) {
 			break;
 		}
@@ -114,7 +129,7 @@ if (baseCSSTemplate) {
 
 document.addEventListener("slidechange", evt => {
 	let slide = evt.target;
-	if (slide.classList.contains("demo")){
+	if (slide.classList.contains("demo")) {
 		let demo = LiveDemo.init(evt.target);
 
 		for (let id in demo.editors) {
@@ -124,7 +139,7 @@ document.addEventListener("slidechange", evt => {
 });
 
 Inspire.slideshowCreated.then(() => {
-	if (Inspire.currentSlide?.classList.contains("demo")){
+	if (Inspire.currentSlide?.classList.contains("demo")) {
 		LiveDemo.init(Inspire.currentSlide);
 	}
 
@@ -137,4 +152,4 @@ Inspire.slideshowCreated.then(() => {
 	// });
 });
 
-export {LiveDemo};
+export { LiveDemo };
