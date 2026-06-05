@@ -4,7 +4,8 @@
  */
 export default {
 	timer: "[data-duration]",
-	presenter: "details.notes",
+	presenter: "body:not(.experimental-presentation-api) details.notes",
+	presenter2: "body.experimental-presentation-api details.notes",
 	"lazy-load": "[data-src]:not(.slide)",
 	"slide-style": "style[data-slide]",
 	overview: "*",

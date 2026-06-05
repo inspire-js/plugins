@@ -1,0 +1,4 @@
+/* Experimental Presentation API presenter view.
+   Reuses the classic presenter styling (next-slide preview, dimmed delayed
+   items, timing badges); add experimental-only tweaks below it as needed. */
+@import url("../presenter/plugin.css");
