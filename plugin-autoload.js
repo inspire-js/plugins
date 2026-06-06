@@ -11,7 +11,7 @@ export default {
 	overview: "*",
 	iframe: ".slide[data-src], .iframe.slide, iframe[data-src]",
 	prism: "[class*='lang-'], [class*='language-']",
-	media: "[data-video], .media-frame",
+	media: "[data-video]",
 	"live-demo": ".demo.slide",
 	resolution: "[data-resolution]",
 	docs: `code.property, .property code,
