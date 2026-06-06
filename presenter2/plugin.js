@@ -70,6 +70,7 @@ function wireConnection (connection, isController) {
 
 		if (isController) {
 			sessionStorage.removeItem(STORAGE_KEY);
+			document.body.classList.remove("presenter", "show-next");
 		}
 	};
 
@@ -121,13 +122,11 @@ Inspire.hooks.add({
 			return;
 		}
 
-		// Switch this window to presenter view
-		enterPresenterView();
-
 		// Ask the browser to render the deck on a secondary display. start()
 		// must run inside this user gesture (the keypress).
 		new PresentationRequest([location.href]).start()
 			.then(connection => {
+				enterPresenterView();
 				wireConnection(connection, true);
 				window.focus();
 			})
