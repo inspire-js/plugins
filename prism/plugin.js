@@ -9,9 +9,11 @@ import * as meta from "./meta.js";
 let PRISM_ROOT = meta.PRISM_ROOT;
 
 // Which languages are used?
-var ids = $$("[class*='lang-'], [class*='language-']").map(e => {
-	return e.className.match(/(?:^|\s)lang(?:uage)?-(\w+)(?=$|\s)/)[1];
-});
+var ids = $$("[class*='lang-'], [class*='language-']")
+	.map(e => {
+		return e.className.match(/(?:^|\s)lang(?:uage)?-(\w+)(?=$|\s)/)?.[1];
+	})
+	.filter(Boolean);
 
 // Drop duplicates
 ids = new Set(ids);
