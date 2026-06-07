@@ -17,6 +17,7 @@ var ids = $$("[class*='lang-'], [class*='language-']")
 
 // Drop duplicates
 ids = new Set(ids);
+ids.delete("none");
 
 // Which plugins to load?
 let plugins = getAttribute("data-prism-plugins");
