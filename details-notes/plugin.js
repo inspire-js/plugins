@@ -19,7 +19,7 @@ for (let details of document.querySelectorAll("details.notes")) {
 		create.start(details, `<summary>Notes</summary>`);
 	}
 
-	if (Inspire.projector) {
+	if (Inspire.projector || document.body.classList.contains("presenter")) {
 		// Speaker view, let's have the notes open by default
 		details.open = true;
 	}

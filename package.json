@@ -1,6 +1,6 @@
 {
   "name": "@inspirejs/plugins",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Official plugins for Inspire.js, the lean, hackable, extensible slide deck framework",
   "type": "module",
   "main": "index.js",
