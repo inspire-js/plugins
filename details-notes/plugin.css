@@ -11,13 +11,13 @@ details.notes {
 	}
 
 	& > summary {
-		padding: 0 .4em;
+		padding: 0 0.4em;
 		box-shadow: 0 0 1px;
-		border-radius: .3em;
+		border-radius: 0.3em;
 		cursor: pointer;
 		white-space: nowrap;
-		font-weight: bold;
-		letter-spacing: -.03em;
+		font-weight: 600;
+		letter-spacing: -0.03em;
 		display: block; /* remove marker */
 
 		&::-webkit-details-marker {
@@ -42,30 +42,30 @@ details.notes {
 		max-width: calc(100vw - 4em);
 		max-height: calc(100vh - 6em);
 		overflow: auto;
-		padding: .8em 1em;
-		border: 1px solid rgba(0,0,0,.3);
-		border-radius: .5em;
-		box-shadow: .05em .1em .4em rgba(0,0,0,.3);
+		padding: 0.8em 1em;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		border-radius: 0.5em;
+		box-shadow: 0.05em 0.1em 0.4em rgba(0, 0, 0, 0.3);
 		color: black;
-		text-shadow: 0 .1em .1em white;
+		text-shadow: 0 0.1em 0.1em white;
 
 		& > * {
 			margin: 0;
 		}
 
 		& > p:where(:not(:first-of-type)) {
-			margin-top: .5em;
+			margin-top: 0.5em;
 		}
 
 		& a {
 			--link-color-d: var(--link-color, 200, 50%, 40%);
 			color: hsl(var(--link-color-d));
-			text-decoration-color: hsla(var(--link-color-d), .5);
+			text-decoration-color: hsla(var(--link-color-d), 0.5);
 		}
 	}
 
 	&[open]::before {
-		content: '';
+		content: "";
 		position: absolute;
 		bottom: 1.6em;
 		left: 40%;
@@ -78,7 +78,7 @@ details.notes {
 	& > div,
 	&[open]::before {
 		background: var(--notes-background-d);
-		border: 1px solid rgba(0,0,0,.3);
+		border: 1px solid rgba(0, 0, 0, 0.3);
 	}
 
 	& a,
@@ -88,7 +88,7 @@ details.notes {
 
 	&.top-right,
 	&.top-left {
-		top: .8em;
+		top: 0.8em;
 
 		&[open]::before {
 			bottom: auto;
@@ -141,7 +141,7 @@ details.notes {
 }
 
 .slide:not(.demo) details.notes:not([open]):not(:hover) > summary {
-	opacity: .6;
+	opacity: 0.6;
 }
 
 .demo-controls details.notes {
