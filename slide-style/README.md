@@ -20,6 +20,18 @@ Put a `<style type=slide>` inside a slide:
 
 The style must live inside a `.slide`; styles outside one are ignored.
 
+## Delayed
+
+Add `delayed` (`type="slide delayed"`) to fold the style into the slide's incremental flow: instead of applying for the whole slide, it switches on when it's stepped to and **stays on** for the rest of the slide. It takes its own step; give it the same `data-index` as another delayed item to reveal them together.
+
+```html
+<style type="slide delayed">
+	h1 { color: orange; }
+</style>
+```
+
+Add `transient` (`type="slide delayed transient"`) to keep it on **only while its own step is current**.
+
 ## Deprecated: `data-slide`
 
 The older `<style data-slide>` form still works but logs a deprecation warning. Switch to `<style type=slide>`.

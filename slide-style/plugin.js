@@ -51,3 +51,55 @@ if (Inspire.slide !== undefined) {
 }
 
 Inspire.hooks.add("slidechange", env => update(env.slide));
+
+// Shared observer: a delayed style waits here for its step's class changes.
+let classObserver;
+let delayedStyles = [];
+
+/**
+ * `type="slide delayed"` folds a style into the slide's step flow: switched on when
+ * its step is reached and kept on for the rest of the slide; `transient` keeps it on
+ * only while its own step is current. The mirror of slide-script's `runSlideScript`,
+ * but a style holds state rather than running once, so this re-applies on every
+ * change (its keywords live in `type` while off, stashed in `data-type` while on).
+ * @param {HTMLStyleElement} style
+ */
+function applyStyle (style) {
+	let raw = style.type.startsWith("slide") ? style.type : style.dataset.type;
+	let transient = raw.includes("transient");
+
+	// `.current:not(.displayed)` is the live current step — core can leave a stale
+	// `.current` on items you stepped past then jumped away from; this ignores it.
+	let on =
+		style.closest(".slide") === Inspire.currentSlide &&
+		style.matches(transient ? ".current:not(.displayed)" : ".current, .displayed");
+
+	if (on && style.type !== "") {
+		style.dataset.type = style.type;
+		style.type = "";
+	}
+	else if (!on && style.type === "") {
+		style.type = style.dataset.type;
+	}
+}
+
+Inspire.hooks.add("slidechange", ({ slide }) => {
+	for (let style of slide.querySelectorAll("style[type~=slide]:not(.delayed)")) {
+		if (!style.type.includes("delayed")) {
+			continue;
+		}
+
+		// Tag `.delayed` (before core counts steps) so it counts as a step.
+		style.classList.add("delayed");
+		(classObserver ??= new MutationObserver(mutations => {
+			for (let { target } of mutations) {
+				applyStyle(target);
+			}
+		})).observe(style, { attributeFilter: ["class"] });
+		delayedStyles.push(style);
+	}
+
+	// Re-apply all, including ones on the slide we just left, to switch them off:
+	// leaving doesn't mutate a slide's classes, so the observer won't fire for them.
+	delayedStyles.forEach(applyStyle);
+});
