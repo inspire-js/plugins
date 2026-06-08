@@ -29,6 +29,10 @@ Tips:
 
 Keywords combine, in any order, as long as `slide` is first: `type="slide module always"`.
 
+## Delayed
+
+Add `delayed` (`type="slide delayed"`) to run the script when it's stepped to in the slide's incremental flow instead of when the slide appears — the scriptable counterpart to [`<inspire-action>`](../delayed-actions/). It takes its own step (so advancing once runs it); give it the same `data-index` as another delayed item to run them together. `always` and `module` work here too.
+
 ## Autoload
 
 Autoloads when any `script[type=slide]` element is present.
