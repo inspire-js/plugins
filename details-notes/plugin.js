@@ -25,7 +25,10 @@ Inspire.hooks.add("slidechange", ({ slide, firstTime }) => {
 		let summary = details.querySelector("summary");
 
 		if (!summary) {
-			details.insertAdjacentHTML("afterbegin", "<summary>Notes</summary>");
+			details.insertAdjacentHTML(
+				"afterbegin",
+				'<summary><span class="text">Notes</span></summary>',
+			);
 		}
 
 		// let shadowRoot = slide.shadowRoot || slide.attachShadow({ mode: "open" });

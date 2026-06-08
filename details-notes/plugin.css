@@ -4,6 +4,7 @@ details.notes {
 	font-weight: 400;
 	text-align: left;
 	--notes-background-d: var(--notes-background, hsl(220, 10%, 95%));
+	--notes-icon: "📋";
 	font-size: 0.6rem;
 
 	& div > ul {
@@ -26,13 +27,24 @@ details.notes {
 		}
 
 		&::before {
-			content: "📋 ";
+			content: var(--notes-icon);
 			filter: grayscale(100%);
 			mix-blend-mode: multiply;
 		}
 
 		&:hover::before {
 			filter: contrast(200%);
+		}
+
+		.text {
+			display: inline-block;
+			margin-inline-start: 0.2em;
+		}
+
+		body.projector & {
+			.text {
+				display: none;
+			}
 		}
 	}
 
