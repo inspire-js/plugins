@@ -20,7 +20,8 @@ details.notes {
 		letter-spacing: -0.03em;
 		display: block; /* remove marker */
 
-		&::-webkit-details-marker {
+		&::-webkit-details-marker,
+		&::marker {
 			display: none;
 		}
 
