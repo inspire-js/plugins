@@ -1,5 +1,7 @@
 import Inspire from "@inspirejs/core";
 
+export const hasCSS = true;
+
 Inspire.hooks.add("init-start", me => {
 	// Create timer, if needed
 	let duration = document.body.getAttribute("data-duration");
