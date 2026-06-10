@@ -1,6 +1,8 @@
 // Display certain keys pressed
 import Inspire from "@inspirejs/core";
 
+export const hasCSS = true;
+
 export const symbols = {
 	Tab: "⇥",
 	Enter: "⏎",
