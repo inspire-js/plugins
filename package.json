@@ -26,6 +26,9 @@
     "url": "https://github.com/inspire-js/plugins/issues"
   },
   "homepage": "https://inspirejs.org",
+  "dependencies": {
+    "markdown-it": "^14"
+  },
   "peerDependencies": {
     "@inspirejs/core": "^3"
   },

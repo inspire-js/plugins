@@ -1,4 +1,5 @@
 import { $$ } from "@inspirejs/core/util";
+import markdownit from "markdown-it";
 
 export const hasCSS = false;
 
@@ -12,8 +13,6 @@ if (elements.length === 0) {
 		rej("No markdown elements");
 	});
 }
-
-let { default: markdownit } = await import("https://esm.sh/markdown-it@14");
 
 let md = new markdownit("commonmark", {
 	html: true,
