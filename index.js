@@ -17,5 +17,6 @@ import selectors from "./plugin-autoload.js";
 const base = new URL("./", import.meta.url);
 
 for (let id in selectors) {
-	registry[id] = { test: selectors[id], base };
+	let { test, load } = selectors[id];
+	registry[id] = { test, load, base };
 }
