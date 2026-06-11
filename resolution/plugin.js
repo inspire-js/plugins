@@ -1,6 +1,8 @@
 import Inspire from "@inspirejs/core";
 import { $$ } from "@inspirejs/core/util";
 
+export const hasCSS = true;
+
 $$("[data-resolution]").forEach(element => {
 	let [width, height] = element.closest("[data-resolution]").dataset.resolution.split(/\s+/);
 	element.style.setProperty("--v-width", width);
