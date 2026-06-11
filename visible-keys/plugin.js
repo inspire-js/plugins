@@ -1,6 +1,8 @@
 // Display certain keys pressed
 import Inspire from "@inspirejs/core";
 
+export const hasCSS = true;
+
 export const symbols = {
 	Tab: "⇥",
 	Enter: "⏎",
@@ -30,7 +32,7 @@ Inspire.hooks.add("slidechange", env => {
 			"keyup",
 			(listener = async evt => {
 				if (keys.has(evt.key) && evt.target.nodeName != "TEXTAREA") {
-					label = evt.key;
+					let label = evt.key;
 
 					for (let key in symbols) {
 						label = label.replace(key, symbols[key]);
@@ -47,9 +49,10 @@ Inspire.hooks.add("slidechange", env => {
 						"beforeend",
 						`<kbd class="visible-key">${label}</kbd>`,
 					);
+					let kbd = env.slide.lastElementChild;
 
-					await key.animate([{ opacity: 0 }], { duration: 400, delay }).finished;
-					key.remove();
+					await kbd.animate([{ opacity: 0 }], { duration: 400, delay }).finished;
+					kbd.remove();
 				}
 			}),
 		);
