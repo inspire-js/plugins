@@ -20,11 +20,9 @@ This will make the current window the Presenter view, and will open another wind
 You are meant to move the audience view to the projector screen, and interact with the presenter view yourself.
 Navigation in the two views is synced (including `.delayed` items).
 
-If you refresh the presenter view, you need to press <kbd>Ctrl</kbd> + <kbd>P</kbd> again to reconnect with the audience view,
-but it will reuse the same tab.
-On the other hand, if you refresh the audience view, the presenter view will automatically reconnect.
+Refreshing either window will automatically reconnect the two views, reusing the existing tabs.
 
-To exit presenter view, simply refresh the window.
+To exit presenter view, close the audience window, then refresh the presenter window.
 
 ## Limitations
 

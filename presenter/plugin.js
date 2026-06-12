@@ -3,29 +3,58 @@ import { $$ } from "@inspirejs/core/util";
 
 export const hasCSS = true;
 
+// Set up this window as the presenter, connected to the given projector window
+function connectToProjector (projector) {
+	Inspire.projector = projector;
+
+	if (projector?.Inspire) {
+		// Make sure the projector points back to us (in case we were reloaded)
+		projector.Inspire.presenter = window;
+	}
+
+	// Switch this one to presenter view
+	document.body.classList.add("presenter", "show-next");
+
+	// Are there <details class="notes"> elements in the current slide? Open them
+	$$("details.notes", Inspire.currentSlide).forEach(d => (d.open = true));
+}
+
 Inspire.hooks.add({
 	"init-end": me => {
 		if (window.name === "projector" && window.opener && opener.Inspire) {
-			// Projector window was reloaded
+			// Projector window was (re)loaded: reconnect to the presenter
 			document.body.classList.add("projector");
 			Inspire.presenter = opener;
 			Inspire.presenter.Inspire.projector = window;
+		}
+		else if (window.name === "presenter") {
+			// Presenter window was reloaded: try to reconnect to the projector.
+			// Passing an empty URL returns the existing window (if any) without
+			// reloading it. If none exists, the lookup yields a blank window (or
+			// is blocked and yields null), which we discard.
+			let projector = open("", "projector");
+
+			if (projector && projector !== window && projector.Inspire) {
+				connectToProjector(projector);
+			}
+			else {
+				// No projector to reconnect to; clean up and forget we were one
+				projector?.close();
+				window.name = "";
+			}
 		}
 	},
 	keyup: env => {
 		// Ctrl+P : Open Presenter view
 		if (env.letter === "P") {
+			// Name this window so it can find the projector again after a refresh
+			window.name = "presenter";
+
 			// Open new window for projector view
-			Inspire.projector = open(location, "projector");
+			connectToProjector(open(location, "projector"));
 
 			// Get the focus back
 			window.focus();
-
-			// Switch this one to presenter view
-			document.body.classList.add("presenter", "show-next");
-
-			// Are there <details class="notes"> elements in the current slide? Open them
-			$$("details.notes", Inspire.currentSlide).forEach(d => (d.open = true));
 		}
 	},
 	slidechange: env => {
