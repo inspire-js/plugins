@@ -60,11 +60,11 @@ LiveDemo.hooks.add("after-init", function () {
 			step => step.type === "pause",
 		).length;
 
-		// One step per pause: reveal a ▸ marker and click replay on the same step
-		for (let i = 1; i <= pauses + 1; i++) {
+		// Trigger play automatically when you hit next
+		for (let i = 0; i < pauses + 1; i++) {
 			this.controls.insertAdjacentHTML(
 				"beforeend",
-				`<span class="delayed" data-index="${i}" delayed.transient[${i}]:script="this.closest('.demo').querySelector('button.replay').click()">▸</span>`,
+				`<inspire-action target="button.replay" once>▸</inspire-action>`,
 			);
 		}
 
