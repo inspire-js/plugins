@@ -60,17 +60,15 @@ LiveDemo.hooks.add("after-init", function () {
 			step => step.type === "pause",
 		).length;
 
-		// Trigger play automatically when you hit next
-		for (let i = 0; i < pauses + 1; i++) {
+		// One step per pause: reveal a ▸ marker and click replay on the same step
+		for (let i = 1; i <= pauses + 1; i++) {
 			this.controls.insertAdjacentHTML(
 				"beforeend",
-				`<inspire-action target="button.replay" once>▸</inspire-action>`,
+				`<span class="delayed" data-index="${i}" delayed.transient[${i}]:script="this.closest('.demo').querySelector('button.replay').click()">▸</span>`,
 			);
 		}
 
-		if (this.container === Inspire.currentSlide) {
-			Inspire.updateItems();
-		}
+		Inspire.domchanged(this.controls);
 	}
 });
 
