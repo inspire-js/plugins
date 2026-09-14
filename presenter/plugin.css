@@ -26,7 +26,7 @@
 	display: none;
 }
 
-.presenter :where(.delayed, .delayed-children > *):not(.displayed, .current) {
+.presenter :where(.delayed, .delayed-children > *):not(.past, .current) {
 	opacity: .2;
 }
 

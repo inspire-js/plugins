@@ -6,8 +6,6 @@ export default {
 	timer: "[data-duration]",
 	presenter: "details.notes",
 	"lazy-load": "[data-src]:not(.slide)",
-	"slide-style": "style[type~='slide'], style[data-slide]",
-	"slide-script": "script[type~='slide']",
 	overview: "*",
 	iframe: ".slide[data-src], .iframe.slide, iframe[data-src]",
 	prism: "[class*='lang-'], [class*='language-']",

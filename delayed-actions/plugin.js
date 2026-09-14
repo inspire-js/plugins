@@ -1,19 +1,12 @@
 /**
- * Special type of delayed element that actually triggers an action when it's current
+ * A delayed item that triggers an action when it becomes current, instead of appearing.
+ * It is an ordinary `.delayed` item to the core; it just listens to its own `itemchange`.
  */
-
 export default class InspireAction extends HTMLElement {
 	#triggered = 0;
 
-	constructor () {
-		super();
-
-		// this.attachShadow({mode: "open"});
-		// this.shadowRoot.innerHTML = `:host { display: none }`;
-	}
-
 	static get observedAttributes () {
-		return ["type", "target", "class"];
+		return ["type", "target"];
 	}
 
 	get type () {
@@ -44,7 +37,7 @@ export default class InspireAction extends HTMLElement {
 		let targetSelector = this.target;
 
 		if (!targetSelector) {
-			throw new InvalidStateError("No target specified");
+			throw new Error("<inspire-action> has no target", { cause: this });
 		}
 
 		let target = slide.querySelector(targetSelector);
@@ -57,15 +50,11 @@ export default class InspireAction extends HTMLElement {
 
 	connectedCallback () {
 		this.classList.add("delayed");
-		this.innerHTML = `<slot></slot>`;
-	}
-
-	attributeChangedCallback (name, oldValue, newValue) {
-		if (name === "class") {
-			if (this.classList.contains("current")) {
+		this.addEventListener("itemchange", evt => {
+			if (evt.state === "current") {
 				this.trigger();
 			}
-		}
+		});
 	}
 }
 

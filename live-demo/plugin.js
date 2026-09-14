@@ -68,9 +68,7 @@ LiveDemo.hooks.add("after-init", function () {
 			);
 		}
 
-		if (this.container === Inspire.currentSlide) {
-			Inspire.updateItems();
-		}
+		Inspire.domchanged(this.controls);
 	}
 });
 
