@@ -4,9 +4,25 @@
  */
 export default class InspireAction extends HTMLElement {
 	#triggered = 0;
+	#current = false;
 
-	static get observedAttributes () {
-		return ["type", "target"];
+	constructor () {
+		super();
+
+		// Attached once, so re-inserting the element cannot stack up listeners
+		this.addEventListener("itemchange", () => {
+			// itemchange also fires for descendants and for other items on this element, so the
+			// class is the signal — except when it only marks a container of a current item
+			let current = this.classList.contains("current") && !this.querySelector(".current");
+
+			if (current !== this.#current) {
+				this.#current = current;
+
+				if (current) {
+					this.trigger();
+				}
+			}
+		});
 	}
 
 	get type () {
@@ -50,11 +66,6 @@ export default class InspireAction extends HTMLElement {
 
 	connectedCallback () {
 		this.classList.add("delayed");
-		this.addEventListener("itemchange", evt => {
-			if (evt.state === "current") {
-				this.trigger();
-			}
-		});
 	}
 }
 
