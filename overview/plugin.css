@@ -40,6 +40,11 @@
 
 .show-thumbnails .slide,
 .show-next .slide.next {
+	/* Opt back into rendering and interaction: slides that are not on screen
+	   are content-visibility: hidden so find-in-page can search them */
+	content-visibility: visible;
+	clip-path: none;
+	pointer-events: auto;
 	width: 100vw;
 	height: 100vh;
 	box-sizing: border-box;
