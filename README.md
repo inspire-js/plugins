@@ -32,4 +32,5 @@ See [`plugin-autoload.js`](./plugin-autoload.js) for the full list of plugins an
 - Disable all: add class `no-plugins` to `<body>`.
 - Skip a plugin’s CSS only: class `no-<id>-css` on any element.
 - Force-load a plugin even without a match: `data-load-plugins="<id> …"` on `<body>`.
+- Load a plugin from somewhere else: `data-load-plugins="<id>: <module>, …"` — the sourced form is comma-separated.
 
