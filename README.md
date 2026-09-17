@@ -17,7 +17,7 @@ Most plugins can be auto-loaded by simply using them or adding an HTML attribute
 
 Additionally, after load, the package exposes:
 
-- `Inspire.plugins` — `{ registry, loaded, load, loadAll, register, TIMEOUT }`
+- `Inspire.plugins` — `{ registry, loaded, load, loadAll, register }`
 - `Inspire.loadPlugin(id)` — load a plugin on demand (loads once)
 
 These should not be necessary in most cases, and are only meant as a low-level API for plugin authors and advanced use cases.
